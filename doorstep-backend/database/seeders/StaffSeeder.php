@@ -9,16 +9,14 @@ class StaffSeeder extends Seeder
 {
     public function run(): void
     {
-        Staff::create([
-            'name' => 'Tyler Bennett',
-            'email' => 'tyler@doorstepauto.ca',
-            'phone' => '604-555-0181',
-        ]);
+        Staff::firstOrCreate(
+            ['email' => 'tyler@doorstepauto.ca'],
+            ['name' => 'Tyler Bennett', 'phone' => '604-555-0181']
+        );
 
-        Staff::create([
-            'name' => 'Mei-Ling Park',
-            'email' => 'meilingp@doorstepauto.ca',
-            'phone' => '604-555-0193',
-        ]);
+        Staff::firstOrCreate(
+            ['email' => 'meilingp@doorstepauto.ca'],
+            ['name' => 'Mei-Ling Park', 'phone' => '604-555-0193']
+        );
     }
 }

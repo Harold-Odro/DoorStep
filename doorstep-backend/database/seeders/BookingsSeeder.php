@@ -66,7 +66,10 @@ class BookingsSeeder extends Seeder
         ];
 
         foreach ($bookings as $booking) {
-            Booking::create($booking);
+            Booking::firstOrCreate(
+                ['user_id' => $booking['user_id'], 'address' => $booking['address'], 'booking_time' => $booking['booking_time']],
+                $booking
+            );
         }
     }
 }

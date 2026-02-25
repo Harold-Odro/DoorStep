@@ -9,18 +9,14 @@ class UsersSeeder extends Seeder
 {
     public function run(): void
     {
-        User::create([
-            'name' => 'Admin User',
-            'email' => 'admin@doorstepauto.ca',
-            'password' => bcrypt('password'),
-            'role' => 'admin',
-        ]);
+        User::firstOrCreate(
+            ['email' => 'admin@doorstepauto.ca'],
+            ['name' => 'Admin User', 'password' => bcrypt('password'), 'role' => 'admin']
+        );
 
-        User::create([
-            'name' => 'Alex Johnson',
-            'email' => 'customer@doorstepauto.ca',
-            'password' => bcrypt('password'),
-            'role' => 'customer',
-        ]);
+        User::firstOrCreate(
+            ['email' => 'customer@doorstepauto.ca'],
+            ['name' => 'Alex Johnson', 'password' => bcrypt('password'), 'role' => 'customer']
+        );
     }
 }

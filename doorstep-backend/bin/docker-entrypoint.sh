@@ -15,8 +15,10 @@ fi
 # Run migrations
 php artisan migrate --force
 
-# Seed if the users table is empty (first deploy only)
-php artisan tinker --execute="exit(App\Models\User::count() > 0 ? 0 : 1);" 2>/dev/null || php artisan db:seed --force
+# Seed if SEED_DB=true (set this env var on first deploy, then remove it)
+if [ "$SEED_DB" = "true" ]; then
+    php artisan db:seed --force
+fi
 
 # Cache config and routes
 php artisan config:cache
