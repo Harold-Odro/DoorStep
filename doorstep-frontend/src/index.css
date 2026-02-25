@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg:          #050D1A;
+  --color-surface:     #0A1628;
+  --color-surface-2:   #0F1F3D;
+  --color-border:      #1A3055;
+  --color-primary:     #00D4FF;
+  --color-primary-dim: #00A8CC;
+  --color-accent:      #0066FF;
+  --color-gold:        #F5C842;
+  --color-success:     #00E676;
+  --color-warning:     #FFB300;
+  --color-danger:      #FF3D57;
+  --color-text:        #E8F4FD;
+  --color-text-muted:  #7A9BB5;
+
+  --font-display: "Bebas Neue", sans-serif;
+  --font-body:    "DM Sans", sans-serif;
+  --font-mono:    "JetBrains Mono", monospace;
+}
+
+@layer utilities {
+  .glassmorphism {
+    background: rgba(10, 22, 40, 0.8);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--color-border);
+  }
+
+  .glow-hover:hover {
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.15);
+  }
+
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .shimmer::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(
+      90deg, transparent, rgba(255,255,255,0.1), transparent
+    );
+    transition: left 0.4s ease;
+  }
+
+  .shimmer:hover::after {
+    left: 100%;
+  }
+}
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 4px rgba(255,179,0,0.4); }
+  50%       { box-shadow: 0 0 12px rgba(255,179,0,0.8); }
+}
+
+@keyframes bubble-float {
+  0%   { transform: translateY(0) scale(1); opacity: 0.6; }
+  100% { transform: translateY(-100vh) scale(1.2); opacity: 0; }
+}
+
+/* Base styles */
+body {
+  margin: 0;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+}
+
+* {
+  box-sizing: border-box;
+}
