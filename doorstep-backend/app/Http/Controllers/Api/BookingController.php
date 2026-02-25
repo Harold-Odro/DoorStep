@@ -8,6 +8,7 @@ use App\Http\Resources\BookingResource;
 use App\Mail\BookingConfirmationMail;
 use App\Models\Booking;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class BookingController extends Controller
@@ -32,7 +33,11 @@ class BookingController extends Controller
 
         $booking->load(['user', 'service', 'staff']);
 
-        Mail::to($request->user()->email)->send(new BookingConfirmationMail($booking));
+        try {
+            Mail::to($request->user()->email)->send(new BookingConfirmationMail($booking));
+        } catch (\Throwable $e) {
+            Log::error('Booking confirmation email failed: ' . $e->getMessage());
+        }
 
         return new BookingResource($booking);
     }

@@ -68,6 +68,21 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Promo Banner */}
+      <section className="bg-gradient-to-r from-gold/10 via-gold/5 to-gold/10 border-y border-gold/20 py-4 px-6">
+        <div className="max-w-[1200px] mx-auto flex flex-col md:flex-row items-center justify-center gap-3 md:gap-8 text-center">
+          <div className="flex items-center gap-2">
+            <span className="font-display text-2xl text-gold">10% OFF</span>
+            <span className="font-body text-text text-sm">for new customers on their first booking</span>
+          </div>
+          <span className="hidden md:block text-border">|</span>
+          <div className="flex items-center gap-2">
+            <span className="font-display text-2xl text-gold">15% OFF</span>
+            <span className="font-body text-text text-sm">your next booking when you refer a friend</span>
+          </div>
+        </div>
+      </section>
+
       {/* Stats Bar */}
       <section className="bg-surface border-y border-border py-8">
         <div className="max-w-[1200px] mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
