@@ -20,8 +20,10 @@ if [ "$SEED_DB" = "true" ]; then
     php artisan db:seed --force
 fi
 
-# Cache config and routes
+# Clear old cache, then re-cache with current env vars
+php artisan config:clear
 php artisan config:cache
+php artisan route:clear
 php artisan route:cache
 
 # Start Apache

@@ -23,6 +23,20 @@ Route::prefix('auth')->group(function () {
 // Public services
 Route::get('/services', [ServiceController::class, 'index']);
 
+// Debug: check mail config (remove after testing)
+Route::get('/debug/mail', function () {
+    return response()->json([
+        'mailer' => config('mail.default'),
+        'host' => config('mail.mailers.smtp.host'),
+        'port' => config('mail.mailers.smtp.port'),
+        'encryption' => config('mail.mailers.smtp.encryption'),
+        'username' => config('mail.mailers.smtp.username'),
+        'from_address' => config('mail.from.address'),
+        'from_name' => config('mail.from.name'),
+        'password_set' => !empty(config('mail.mailers.smtp.password')),
+    ]);
+});
+
 // Authenticated customer routes
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/bookings', [BookingController::class, 'index']);
