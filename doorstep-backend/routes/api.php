@@ -29,12 +29,28 @@ Route::get('/debug/mail', function () {
         'mailer' => config('mail.default'),
         'host' => config('mail.mailers.smtp.host'),
         'port' => config('mail.mailers.smtp.port'),
-        'encryption' => config('mail.mailers.smtp.encryption'),
+        'scheme' => config('mail.mailers.smtp.scheme'),
         'username' => config('mail.mailers.smtp.username'),
         'from_address' => config('mail.from.address'),
         'from_name' => config('mail.from.name'),
         'password_set' => !empty(config('mail.mailers.smtp.password')),
     ]);
+});
+
+// Debug: send test email (remove after testing)
+Route::get('/debug/test-email', function () {
+    try {
+        \Illuminate\Support\Facades\Mail::raw('Test email from Doorstep Autowash', function ($message) {
+            $message->to('harodro@gmail.com')
+                    ->subject('Doorstep Test Email');
+        });
+        return response()->json(['status' => 'sent']);
+    } catch (\Throwable $e) {
+        return response()->json([
+            'status' => 'failed',
+            'error' => $e->getMessage(),
+        ], 500);
+    }
 });
 
 // Authenticated customer routes
