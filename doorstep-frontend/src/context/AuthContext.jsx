@@ -1,7 +1,14 @@
-import { createContext, useContext, useState, useEffect } from 'react'
+import { createContext, useContext, useState, useEffect, useCallback } from 'react'
 import api from '../lib/axios'
 
 const AuthContext = createContext(null)
+
+// eslint-disable-next-line react-refresh/only-export-components
+export function useAuth() {
+  const context = useContext(AuthContext)
+  if (!context) throw new Error('useAuth must be used within AuthProvider')
+  return context
+}
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
@@ -11,15 +18,7 @@ export function AuthProvider({ children }) {
   const isAuthenticated = !!user
   const isAdmin = user?.role === 'admin'
 
-  useEffect(() => {
-    if (token) {
-      fetchUser()
-    } else {
-      setIsLoading(false)
-    }
-  }, [])
-
-  async function fetchUser() {
+  const fetchUser = useCallback(async () => {
     try {
       const res = await api.get('/api/auth/me')
       setUser(res.data.user)
@@ -30,7 +29,15 @@ export function AuthProvider({ children }) {
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [])
+
+  useEffect(() => {
+    if (token) {
+      fetchUser()
+    } else {
+      setIsLoading(false)
+    }
+  }, [token, fetchUser])
 
   async function login(email, password) {
     const res = await api.post('/api/auth/login', { email, password })
@@ -69,10 +76,4 @@ export function AuthProvider({ children }) {
       {children}
     </AuthContext.Provider>
   )
-}
-
-export function useAuth() {
-  const context = useContext(AuthContext)
-  if (!context) throw new Error('useAuth must be used within AuthProvider')
-  return context
 }

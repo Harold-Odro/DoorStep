@@ -12,23 +12,40 @@ export default function AdminBookingsPage() {
   const [staff, setStaff] = useState([])
   const [filter, setFilter] = useState('all')
   const [loading, setLoading] = useState(true)
+  const [refreshKey, setRefreshKey] = useState(0)
 
   useEffect(() => {
-    fetchBookings()
-    api.get('/api/admin/staff').then(res => setStaff(res.data.data || []))
-  }, [filter])
+    let cancelled = false
+    const controller = new AbortController()
 
-  function fetchBookings() {
-    setLoading(true)
-    const params = filter !== 'all' ? `?status=${filter}` : ''
-    api.get(`/api/admin/bookings${params}`)
-      .then(res => setBookings(res.data.data || []))
-      .finally(() => setLoading(false))
-  }
+    const fetchData = async () => {
+      const params = filter !== 'all' ? `?status=${filter}` : ''
+      try {
+        const [bookingsRes, staffRes] = await Promise.all([
+          api.get(`/api/admin/bookings${params}`, { signal: controller.signal }),
+          api.get('/api/admin/staff', { signal: controller.signal })
+        ])
+        if (!cancelled) {
+          setBookings(bookingsRes.data.data || [])
+          setStaff(staffRes.data.data || [])
+          setLoading(false)
+        }
+      } catch {
+        if (!cancelled) setLoading(false)
+      }
+    }
+
+    fetchData()
+
+    return () => {
+      cancelled = true
+      controller.abort()
+    }
+  }, [filter, refreshKey])
 
   async function updateBooking(id, data) {
     await api.put(`/api/admin/bookings/${id}`, data)
-    fetchBookings()
+    setRefreshKey(k => k + 1)
   }
 
   const statusBorderColor = {

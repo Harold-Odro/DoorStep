@@ -19,7 +19,7 @@ export default function BookingDetailPage() {
       .then(res => setBooking(res.data.data || res.data))
       .catch(() => navigate('/dashboard'))
       .finally(() => setLoading(false))
-  }, [id])
+  }, [id, navigate])
 
   async function handleCancel() {
     setCancelling(true)

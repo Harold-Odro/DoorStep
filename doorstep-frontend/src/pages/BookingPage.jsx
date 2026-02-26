@@ -28,7 +28,7 @@ export default function BookingPage() {
       const preselect = searchParams.get('service')
       if (preselect) setSelectedService(Number(preselect))
     }).finally(() => setLoading(false))
-  }, [])
+  }, [searchParams])
 
   const today = new Date().toISOString().split('T')[0]
   const selectedServiceObj = services.find(s => s.id === selectedService)
