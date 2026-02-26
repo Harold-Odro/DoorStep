@@ -171,7 +171,7 @@ export default function HomePage() {
         </div>
         <hr className="border-none h-px bg-gradient-to-r from-transparent via-primary to-transparent my-8" />
         <p className="text-center font-body text-text-muted text-xs">
-          © 2025 Doorstep Autowash Service. All rights reserved.
+          © 2026 Doorstep Autowash Service. All rights reserved.
         </p>
       </footer>
     </div>
